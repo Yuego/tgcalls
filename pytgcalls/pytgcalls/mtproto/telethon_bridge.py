@@ -146,9 +146,9 @@ class TelethonBridge(MTProtoBridgeBase):
             self.chat_peer = await self.client.get_input_entity(group)
 
         if isinstance(self.chat_peer, InputPeerChannel):
-            self.full_chat = (await self.client(functions.channels.GetFullChannelRequest(group))).full_chat
+            self.full_chat = (await self.client(functions.channels.GetFullChannelRequest(channel=self.chat_peer))).full_chat
         elif isinstance(self.chat_peer, InputPeerChat):
-            self.full_chat = (await self.client(functions.messages.GetFullChatRequest(group))).full_chat
+            self.full_chat = (await self.client(functions.messages.GetFullChatRequest(chat_id=self.chat_peer.chat_id))).full_chat
 
         if self.full_chat is None:
             raise PytgcallsError(f'Can\'t get full chat by {group}')
